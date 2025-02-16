@@ -7,15 +7,15 @@ router.post('/signup',userController.signUp)
 
 router.post('/login',userController.login)
 
-router.post('/add',userController.studentCreate)
+router.post('/add',auth,userController.studentCreate)
 
-router.get('/findAll',userController.findAll)
+router.get('/findAll',auth,userController.findAll)
 
-router.get('/getOne/:id',userController.getOne)
+router.get('/getOne/:id',auth,userController.getOne)
 
-router.delete('/delete/:id',userController.delete)
+router.delete('/delete/:id',auth,userController.delete)
 
-router.patch('/update',userController.update)
+router.patch('/update',auth,userController.update)
 
 
 module.exports = router;

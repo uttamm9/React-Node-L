@@ -13,7 +13,10 @@ const Login = () => {
     console.log('Email:', email);
     console.log('Password:', password);
     try {
-      await axios.post('http://localhost:5050/std/login', { email, password })
+      const result = await axios.post('http://localhost:5050/std/login', { email, password })
+      console.log('>>>>result>>>',result.data.token)
+      localStorage.setItem('token', result.data.token)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`
       alert('login sussesful')
       navigate('/createStudent')
     } catch (error) {

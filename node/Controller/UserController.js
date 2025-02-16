@@ -27,16 +27,19 @@ exports.signUp = async(req,res)=>{
 
 exports.login = async(req,res)=>{
     const {email,password} = req.body;
-    const userEmail = await studentData.findOne({email})
+    if (!(email && password)) {
+        return res.status(400).json({msg:"Email and password are required"});
+    }
+    const userEmail = await studentData.findOne({email});
     if(!userEmail){
-      return res.status(404).json({msg:"login first"})
+      return res.status(404).json({msg:"login first"});
     }
-    const isMatch = bcrypt.compareSync(password,userEmail.password)
+    const isMatch = bcrypt.compareSync(password, userEmail.password);
     if(!isMatch){
-      return res.status(404).json({msg:"invalid password"})
+      return res.status(404).json({msg:"invalid password"});
     }
-    const token = jwt.sign({_id:userEmail._id},secretkey,{expiresIn:'1h'})
-   res.status(200).json({msg:"Login successfully",token:token})
+    const token = jwt.sign({_id:userEmail._id},secretkey,{expiresIn:'1h'});
+   res.status(200).json({msg:"Login successfully",token:token});
 }
 
 
