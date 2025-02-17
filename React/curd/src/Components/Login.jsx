@@ -18,7 +18,8 @@ const Login = () => {
       localStorage.setItem('token', result.data.token)
       axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`
       alert('login sussesful')
-      navigate('/createStudent')
+      navigate('/add')
+
     } catch (error) {
       alert('get error')
     }
