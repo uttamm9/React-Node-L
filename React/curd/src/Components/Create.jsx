@@ -8,7 +8,7 @@ const Create = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    number: ''
+    batch: ''
   })
   const [allStudenta ,setallStudenta] = useState([])
   const [module, setModule] = useState(false)
@@ -28,7 +28,7 @@ const Create = () => {
     try {
       await axios.post('http://localhost:5050/std/add', {...formData});
       alert('Student created successfully!');
-      setFormData({name: '', email: '', number: ''});
+      setFormData({name: '', email: '', batch: ''});
     } catch (error) {
       console.error('There was an error creating the student!', error);
     }
@@ -106,10 +106,10 @@ const Create = () => {
           <label htmlFor="phone">Phone</label>
           <input 
           type="tel" 
-          name="number" 
-          id="number" 
+          name="batch" 
+          id="batch" 
           onChange={handleChange}
-          value={formData.number}
+          value={formData.batch}
           style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
         </div>
         <div>
@@ -145,7 +145,7 @@ const Create = () => {
                 <td className='thcss'>
                   {item.email}</td>
                 <td className='thcss'>
-                  {item.number}</td>
+                  {item.batch}</td>
                 <td className='thcss'>
                   <button className='updateButton' onClick={()=>{setModule(true), setEdituser(item)} } >Update</button>
                 </td>
@@ -183,9 +183,9 @@ const Create = () => {
                   <label>Phone:</label>
                   <input
                     type="tel"
-                    name="number"
-                    value={edituser.number}
-                    onChange={(e)=>{setEdituser({...edituser,number:e.target.value})}}
+                    name="batch"
+                    value={edituser.batch}
+                    onChange={(e)=>{setEdituser({...edituser,batch:e.target.value})}}
                   />
                 </div>
                 <button onClick={()=>setModule(flase)}>cancel</button>

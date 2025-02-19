@@ -1,4 +1,5 @@
-const studentData = require('../Model/UserModel')
+const studentData = require('../Model/studentModel')
+const userModel = require('../Model/UserModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const secretkey = 'dv5v45g455eer34ff5tt545ge34'
@@ -9,7 +10,7 @@ exports.signUp = async(req,res)=>{
   if(!(name&&email&&password)){
     return res.status(400).json({msg:"All fields are required"})
   }
-  const userEmail = await studentData.findOne({email});
+  const userEmail = await userModel.findOne({email});
   if(userEmail){
     return res.status(400).json({msg:"Email already used"})
   }
@@ -19,7 +20,7 @@ exports.signUp = async(req,res)=>{
 
   const data = {name,email,password:hashPass}
 
-  const result = new studentData(data)
+  const result = new userModel(data)
   
   await result.save()
   res.status(201).json({msg:"Signup successfully",result})
@@ -30,7 +31,7 @@ exports.login = async(req,res)=>{
     if (!(email && password)) {
         return res.status(400).json({msg:"Email and password are required"});
     }
-    const userEmail = await studentData.findOne({email});
+    const userEmail = await userModel.findOne({email});
     if(!userEmail){
       return res.status(404).json({msg:"login first"});
     }
@@ -45,8 +46,10 @@ exports.login = async(req,res)=>{
 
 exports.studentCreate = async(req,res)=>{
   console.log("......>>>>req.body",req.body)
-  const {name,email,number} = req.body;
-  if(!(name&&email&&number)){
+  console.log('<<<req.user>>>',req.user)
+  // return;
+  const {name,email,batch} = req.body;
+  if(!(name&&email&&batch)){
     return res.status(404).json({msg:"all feild requird"})
   }
   const userEmail = await studentData.findOne({ email });
@@ -59,7 +62,10 @@ exports.studentCreate = async(req,res)=>{
 } 
 
 exports.findAll = async(req,res)=>{
-    const myStudentData = await studentData.find()
+    const user_id = req.user._id;
+    console.log(">>>>>user ID>>>>",user_id)
+    // return;
+    const myStudentData = await studentData.find({ userId: user_id }).populate('userId')
     res.status(200).json(myStudentData)
     console.log(myStudentData)
 }

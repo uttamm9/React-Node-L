@@ -23,5 +23,6 @@ module.exports = async(req,res,next) =>{
     return res.status(401).json({massage:'user not found'})
 
   }
+  req.user = user;
   next() 
 }
