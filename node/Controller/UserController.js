@@ -47,6 +47,8 @@ exports.login = async(req,res)=>{
 exports.studentCreate = async(req,res)=>{
   console.log("......>>>>req.body",req.body)
   console.log('<<<req.user>>>',req.user)
+  const user_id = req.user._id;
+  console.log(">>>>>user ki ID>>>>",user_id)
   // return;
   const {name,email,batch} = req.body;
   if(!(name&&email&&batch)){
@@ -56,7 +58,10 @@ exports.studentCreate = async(req,res)=>{
   if (userEmail) {
     return res.status(400).json({ msg: "Email already used" });
   }
-  const userdata = new studentData(req.body)
+  const data = {name,email,batch,userId:user_id}
+  console.log(">>>>Data<<<<<<",data);
+  // return;
+  const userdata = new studentData(data)
   await userdata.save()
   return res.status(201).json(userdata)
 } 

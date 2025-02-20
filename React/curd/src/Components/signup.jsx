@@ -25,7 +25,7 @@ const signup = () => {
     // Handle form submission logic here
     console.log('Form submitted:', formData);
     try {
-      await axios.post('http://localhost:5050/std/signup', { ...formData });
+      await axios.post('http://localhost:7050/std/signup', { ...formData });
       alert('data save');
       navigate('/login')
     } catch (error) {

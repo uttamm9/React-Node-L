@@ -6,7 +6,7 @@ const monent = require('moment')
 require('dotenv').config();
 const router = require('./Router/UserRoute')
 
-const port = process.env.PORT || 4050;
+const port = process.env.PORT || 3050;
 
 const mongoUri = process.env.MONGO_URL;
 

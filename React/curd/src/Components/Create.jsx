@@ -26,7 +26,7 @@ const Create = () => {
     e.preventDefault();
     console.log('form data=> ', formData);
     try {
-      await axios.post('http://localhost:5050/std/add', {...formData});
+      await axios.post('http://localhost:7050/std/add', {...formData});
       alert('Student created successfully!');
       setFormData({name: '', email: '', batch: ''});
     } catch (error) {
@@ -36,7 +36,7 @@ const Create = () => {
   
   const getstudents = async()=>{
     try {
-      const result = await axios.get('http://localhost:5050/std/findAll')
+      const result = await axios.get('http://localhost:7050/std/findAll')
       // console.log(result.data)
       setallStudenta(result.data)
       document.getElementById('table').style.display = 'block'
@@ -58,7 +58,7 @@ const Create = () => {
   const Delete = async(id)=>{
       console.log("delete id",id)
       try {
-        await axios.delete('http://localhost:5050/std/delete/'+id)
+        await axios.delete('http://localhost:7050/std/delete/'+id)
         alert('delete successfully')
         getstudents()
       } catch (error) {
@@ -69,7 +69,7 @@ const Create = () => {
   const update = async(id) => {
     console.log('update id', id)
     try {
-      const result = await axios.patch('http://localhost:5050/std/update', { id, ...edituser })
+      const result = await axios.patch('http://localhost:7050/std/update', { id, ...edituser })
       console.log(result)
       alert('update successfully')
       getstudents() // Fetch updated data after update
@@ -103,9 +103,9 @@ const Create = () => {
            style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-          <label htmlFor="phone">Phone</label>
+          <label htmlFor="phone">Batch</label>
           <input 
-          type="tel" 
+          type="text" 
           name="batch" 
           id="batch" 
           onChange={handleChange}
