@@ -3,9 +3,13 @@ const userModel = require('../Model/UserModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const secretkey = 'dv5v45g455eer34ff5tt545ge34'
+const monent = require('moment')
+const otp = Math.floor(1000 + Math.random() * 9000);
 
 exports.signUp = async(req,res)=>{
   const {name,email,password} = req.body;
+  const expireOTP = monent().add(10,'minutes');
+  console.log("<><>>>expireTime",expireOTP);
   console.log(req.body)
   if(!(name&&email&&password)){
     return res.status(400).json({msg:"All fields are required"})
@@ -18,17 +22,18 @@ exports.signUp = async(req,res)=>{
   const salt = bcrypt.genSaltSync(10);
   const hashPass = bcrypt.hashSync(password,salt)
 
-  const data = {name,email,password:hashPass}
+  const data = {name,email,password:hashPass,otp,OtpExpiryTime:expireOTP}
 
   const result = new userModel(data)
+  console.log("><>Result>>>",result);
   
   await result.save()
   res.status(201).json({msg:"Signup successfully",result})
 }
 
 exports.login = async(req,res)=>{
-    const {email,password} = req.body;
-    if (!(email && password)) {
+    const {email,password,otp} = req.body;
+    if (!(email && password,otp)) {
         return res.status(400).json({msg:"Email and password are required"});
     }
     const userEmail = await userModel.findOne({email});
@@ -39,7 +44,17 @@ exports.login = async(req,res)=>{
     if(!isMatch){
       return res.status(404).json({msg:"invalid password"});
     }
-    const token = jwt.sign({_id:userEmail._id},secretkey,{expiresIn:'1h'});
+    const dbotp = userEmail.otp;
+    console.log("><><><>OTP DB",dbotp);
+    
+    if(monent()>userEmail.OtpExpiryTime){
+      return res.status(400).json({msg:"OPT is Expire"})
+    }
+
+    if(otp!=dbotp){
+      return res.status(400).json({msg:"invalid OTP"})
+    }
+    const token = jwt.sign({_id:userEmail._id},secretkey,{expiresIn:'1d'});
    res.status(200).json({msg:"Login successfully",token:token});
 }
 

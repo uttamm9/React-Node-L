@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
+const moment = require('moment')
 
 const user = new Schema({
  name:{
@@ -12,7 +13,14 @@ const user = new Schema({
  },
  password:{
   type:String,
-  required:false
+  required:true
+ },
+ otp:{
+  type:Number,
+  required:true,
+ },
+ OtpExpiryTime:{
+  type:String
  }
 },{versionKey:false,timestamps:true})
 
