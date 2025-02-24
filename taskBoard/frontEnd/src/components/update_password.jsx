@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const UpdatePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
+  const color = localStorage.getItem('color');
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,13 +14,19 @@ const UpdatePassword = () => {
       alert("New password and confirm password do not match");
       return;
     }
-    // Handle password update logic here
-    console.log('Password updated successfully');
-    navigate('/login');
+    axios.patch('http://localhost:7070/API/updatePassword', { newPassword, currentPassword })
+      .then((response) => {
+        console.log(response.data);
+        alert('Password updated successfully');
+        navigate('/login');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: color, height: '100vh', width: '1250px' }}>
       <h2>Update Password</h2>
       <form onSubmit={handleSubmit}>
         <div>

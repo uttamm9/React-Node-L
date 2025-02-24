@@ -12,7 +12,7 @@ const ForgatePassword = () => {
       // Handle password reset logic here
       console.log('Passwords match. Proceed with password reset.', newPassword);
       axios
-        .post('http://localhost:7070/API/forgetPassword', { email, newPassword })
+        .patch('http://localhost:7070/API/forgetPassword', { email, newPassword })
         .then((res) => {
           console.log(res);
           alert('Password reset successful.');

@@ -43,6 +43,8 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(400).json({message: 'User not found'});
         }
+        const color = user.color;
+        console.log("color",color);
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
             return res.status(400).json({
@@ -51,7 +53,7 @@ exports.login = async (req, res) => {
         }
         const token = jwt.sign({_id: user._id},secret_key,{expiresIn: '1d'});
 
-        res.status(200).json({msg:"Login Succesful",token});
+        res.status(200).json({msg:"Login Succesful",token,color});
     }
     catch (err) {
         res.status(500).json({
@@ -65,13 +67,19 @@ exports.updatePassword = async (req, res) => {
         console.log('....user_email',req.user.email);
         const email = req.user.email;
 
-        const { newPassword } = req.body;
+        const { newPassword , currentPassword} = req.body;
         const user = await userModel.findOne({email});
         if (!user) { return res.status(400).json({message: 'User not found'});
     }
+        const validPassword = await bcrypt.compare(currentPassword, user.password);
+        if (!validPassword) {
+            return res.status(400).json({message: 'Invalid password'});
+        }
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(newPassword, salt);
-        await userModel.updateOne({email}, {password: hashPassword }); 
+        const data = await userModel.updateOne({email}, {password: hashPassword }); 
+        console.log('data',data);
+        return;
         res.status(200).json({ message: 'Password updated'});
     }
     catch (err) {
@@ -95,7 +103,7 @@ exports.forgatePassword = async (req, res) => {
         
 
         const token = jwt.sign({ _id: user._id}, secret_key, {expiresIn: '1d'});
-        res.status(200).json({message: 'Token sent to your email'});
+        res.status(200).json({message: 'Password updated'});
     }
     catch (err) {
         res.status(500).json({

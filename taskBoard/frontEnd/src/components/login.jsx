@@ -13,7 +13,8 @@ const Login = () => {
     console.log('Password:', password);
     axios.post('http://localhost:7070/API/login', { email, password })
       .then((res) => { 
-        console.log('>>>>result>>>',res.data.token);
+        console.log('>>>>result>>>',res.data.color);
+        localStorage.setItem('color', res.data.color);
         localStorage.setItem('token', res.data.token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
         alert('login sussesful');

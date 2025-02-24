@@ -3,6 +3,8 @@ const userModel = require('../model/userModel');
 
 exports.createTask = async (req, res) => {
     try {
+        const color = req.user.color;
+        console.log("color",color);
         const { taskName, dueDate, status, assignTo, remark } = req.body;
         console.log("<><>>>>req.body",req.body);
 

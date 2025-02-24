@@ -4,7 +4,7 @@ import axios from 'axios';
 const Tasks = () => {
   const [tasks, setMyTask] = useState([]);
   const [assignedTasks, setMyAssignedTask] = useState([]);
-
+  const color = localStorage.getItem('color'); 
   const getMyTask = async () => {
     try {
       const response = await axios.get('http://localhost:7070/API/getTask', {
@@ -41,7 +41,7 @@ const Tasks = () => {
   },[]);
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', color: '#555',  }}>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', color: '#555', backgroundColor: color, height: '100vh', width: '1210px' }}>
       <div style={{ marginBottom: '10px' }}>
         <h1 style={{ color: '#555' }}>My Tasks</h1>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>

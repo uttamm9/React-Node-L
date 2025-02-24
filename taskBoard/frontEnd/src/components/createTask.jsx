@@ -10,6 +10,7 @@ import axios from 'axios';
       assignTo: '',
       remark: ''
     });
+    const color = localStorage.getItem('color');
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
 
@@ -47,7 +48,7 @@ import axios from 'axios';
     };
 
     return (
-      <div>
+      <div style={{backgroundColor: color , height: '100vh', width: '1270px'}}>
         <form onSubmit={handleSubmit}>
           <div>
             <label>Task Name:</label>
