@@ -20,4 +20,8 @@ router.patch('/updatePassword',auth,userController.updatePassword)
 
 router.patch('/forgetPassword',userController.forgatePassword)
 
+router.patch('/updateTask/:_id',taskController.updateTask);
+
+router.delete('/deleteTask/:_id',taskController.deleteTask);
+
 module.exports = router;
