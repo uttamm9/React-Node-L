@@ -14,7 +14,8 @@ const taskSchema = new mongoose.Schema({
     required: true
   },
   assignTo: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   remark: {
@@ -23,7 +24,7 @@ const taskSchema = new mongoose.Schema({
   },
   assingBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'User'
   }
 },{versionKey: false});
 

@@ -61,7 +61,7 @@ const Tasks = () => {
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.dueDate}</td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.status}</td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.remark}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task._id}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.assingBy.name}</td>
               </tr>
             ))}
           </tbody>
@@ -86,7 +86,7 @@ const Tasks = () => {
                     <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.dueDate}</td>
                     <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.status}</td>
                     <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.remark}</td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.assignTo}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.assignTo.name}</td>
                   </tr>
                 ))}
               </tbody>

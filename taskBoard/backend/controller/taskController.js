@@ -6,19 +6,23 @@ exports.createTask = async (req, res) => {
         const color = req.user.color;
         console.log("color",color);
         const { taskName, dueDate, status, assignTo, remark } = req.body;
-        console.log("<><>>>>req.body",req.body);
+        console.log("<><>>>>>>>>>>req.body",req.body);
 
         if(!(taskName && dueDate && status && assignTo && remark)) {
             return res.status(400).json({
                 message: 'All fields are required'
             });
         }
+        const assingtoData = await userModel.findOne({email: assignTo});
+        if(!assingtoData) {
+            return res.status(400).json({message: 'Assign to email not found'});
+        } 
         const assingBy = req.user._id;
         const task = new taskModel({
             taskName,
             dueDate,
             status,
-            assignTo,
+            assignTo:assingtoData,
             remark,
             assingBy: assingBy
         });
@@ -43,7 +47,7 @@ exports.getuser = async (req, res) => {
 
 exports.getTask = async (req, res) => {
     try {
-        const task = await taskModel.find();
+        const task = await taskModel.find({assingBy: req.user.email}).populate('assignTo');
         res.status(200).json(task);
     }
     catch (err) {
@@ -53,10 +57,11 @@ exports.getTask = async (req, res) => {
 
 exports.myTask = async (req, res) => {
     try {
-        console.log(req.user.email);
+        console.log(`<<<<<<<<<<<<<<`,req.user.email);
         // return;
-        const task = await taskModel.find({assignTo: req.user.email});
-        console.log("tasks",task);
+        const task = await taskModel.find({assignTo: req.user.email})
+        .populate('assingBy');
+        console.log(">>>>>>>>>>>tasks",task);
         res.status(200).json(task);
     }
     catch (err) {
@@ -66,7 +71,7 @@ exports.myTask = async (req, res) => {
 
 exports.myAssignedTask = async (req, res) => {
     try {
-        const task = await taskModel.find({assingBy: req.user._id});
+        const task = await taskModel.find({assingBy: req.user._id}).populate('assignTo');
         res.status(200).json(task);
     }
     catch (err) {

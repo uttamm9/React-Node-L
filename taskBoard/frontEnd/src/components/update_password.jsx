@@ -22,6 +22,7 @@ const UpdatePassword = () => {
       })
       .catch((error) => {
         console.log(error);
+        alert('Invalid current password');
       });
   };
 

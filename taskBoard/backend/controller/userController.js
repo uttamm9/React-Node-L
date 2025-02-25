@@ -79,7 +79,7 @@ exports.updatePassword = async (req, res) => {
         const hashPassword = await bcrypt.hash(newPassword, salt);
         const data = await userModel.updateOne({email}, {password: hashPassword }); 
         console.log('data',data);
-        return;
+
         res.status(200).json({ message: 'Password updated'});
     }
     catch (err) {
