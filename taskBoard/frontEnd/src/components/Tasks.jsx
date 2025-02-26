@@ -74,6 +74,24 @@ const Tasks = () => {
     }
   }
 
+  const completeTask = async(task) => {
+    console.log("complete id", task);
+    try {
+      await axios.request({
+        method: 'delete',
+        url: 'http://localhost:7070/API/completeTask',
+        data: { ...task },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      alert('Task completed successfully');
+      getMyTask();
+    } catch (error) {
+      console.error('There was an error completing the task!', error);
+    }
+  }
+
   useEffect(() => {
     getMyTask();
     getMyAssignedTask();
@@ -107,16 +125,18 @@ const Tasks = () => {
               <th style={{ border: '1px solid #ddd', padding: '8px' }}>Status</th>
               <th style={{ border: '1px solid #ddd', padding: '8px' }}>Remark</th>
               <th style={{ border: '1px solid #ddd', padding: '8px' }}>Assigned By</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Mark as</th>
             </tr>
           </thead>
           <tbody>
             {tasks.map((task, index) => (
               <tr key={index}>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.taskName}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.dueDate}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.dueDate.slice(0,10)}</td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.status}</td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.remark}</td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.assingBy.name}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}><button onClick={()=>{completeTask(task)}}>Mark as Done</button></td>
               </tr>
             ))}
           </tbody>
@@ -141,7 +161,7 @@ const Tasks = () => {
                 {assignedTasks.map((assignedTasks, index) => (
                   <tr key={index}>
                     <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.taskName}</td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.dueDate}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.dueDate.slice(0,10)}</td>
                     <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.status}</td>
                     <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.remark}</td>
                     <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.assignTo.name}</td>

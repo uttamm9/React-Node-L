@@ -25,6 +25,10 @@ const taskSchema = new mongoose.Schema({
   assingBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  },
+  isActive:{
+    type: Boolean,
+    default: true
   }
 },{versionKey: false});
 

@@ -24,4 +24,6 @@ router.patch('/updateTask/:_id',taskController.updateTask);
 
 router.delete('/deleteTask/:_id',taskController.deleteTask);
 
+router.delete('/completeTask',auth,taskController.completeTask);
+
 module.exports = router;

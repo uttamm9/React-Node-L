@@ -1,5 +1,6 @@
 const taskModel = require('../model/taskModel');
 const userModel = require('../model/userModel');
+const trashModel = require('../model/trashModel');
 
 exports.createTask = async (req, res) => {
     try {
@@ -116,6 +117,36 @@ exports.deleteTask = async (req, res) => {
             return res.status(400).json({message: 'Task not found'});
         }
         res.status(200).json({message: 'Task deleted'});
+    }
+    catch (err) {
+        res.status(500).json({message: 'Internal server error'});
+    }
+}
+
+exports.completeTask = async (req, res) => {
+    try {
+        const { _id } = req.body;
+        console.log('body>>>',req.body);
+        if(!_id) {
+            return res.status(400).json({message: 'Task id is required'});
+        }
+        const task = await taskModel.findOne({_id});
+        if(!task) {
+            return res.status(400).json({message: 'Task not found'});
+        }
+        const trash = new trashModel({
+            taskName: task.taskName,
+            dueDate: task.dueDate,
+            status: "completed",
+            assignTo: task.assignTo,
+            remark: task.remark,
+            assingBy: task.assingBy,
+            isActive: false
+        });
+        console.log("completed task",trash);
+        await trash.save();
+        await taskModel.findOneAndDelete({_id});
+        res.status(200).json({message: 'Task completed'});
     }
     catch (err) {
         res.status(500).json({message: 'Internal server error'});
