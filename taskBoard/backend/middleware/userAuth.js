@@ -4,7 +4,7 @@ const userModel = require('../model/userModel')
 
 module.exports = async(req,res,next) =>{
   const token = req?.headers?.authorization;
-  // console.log("....>>>>.Token >>>>",token)
+  console.log("....>>>>.Token >>>>",token)
   if(!token){
     return res.status(401).json({massage:"Unauthoriza"});
   }
@@ -17,7 +17,7 @@ module.exports = async(req,res,next) =>{
     return res.status(401).json({massage:'invalid token'});
   }
   const user = await userModel.findById(decode._id)
-  // console.log(">>>>>>decode>>>>",user)
+  console.log(">>>>>>decode>>>>",user)
   if(!user){
     return res.status(401).json({massage:'user not found'})
 

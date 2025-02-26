@@ -14,7 +14,12 @@ const UpdatePassword = () => {
       alert("New password and confirm password do not match");
       return;
     }
-    axios.patch('http://localhost:7070/API/updatePassword', { newPassword, currentPassword })
+    axios.patch('http://localhost:7070/API/updatePassword', { newPassword, currentPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+  })
       .then((response) => {
         console.log(response.data);
         alert('Password updated successfully');

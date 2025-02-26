@@ -14,16 +14,25 @@ import axios from 'axios';
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
 
+
     useEffect(() => {
-      axios.get('http://localhost:7070/API/getuser')
-        .then((response) => {
-          console.log(response.data);
-          setUsers(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      fetchUsers();
     }, []);
+
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:7070/API/getuser',{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+      });
+        console.log(`>>>>>>>`,response.data);
+        setUsers(response.data);
+      } catch (error) {
+        console.log(`//////////`,error);
+      }
+    };
+    
 
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -36,7 +45,13 @@ import axios from 'axios';
     const handleSubmit = (e) => {
       e.preventDefault();
       console.log(task);
-      axios.post('http://localhost:7070/API/createTask', { ...task })
+      axios.post('http://localhost:7070/API/createTask', { ...task },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+    }
+      )
         .then((response) => {
           console.log(response.data);
           alert('Task created successfully');
@@ -48,49 +63,189 @@ import axios from 'axios';
     };
 
     return (
-      <div style={{backgroundColor: color , height: '100vh', width: '1270px'}}>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Task Name:</label>
-            <input type="text" name="taskName" value={task.taskName} onChange={handleChange} required />
-          </div>
-          <div>
-            <label>Due Date:</label>
-            <input type="date" name="dueDate" value={task.dueDate} onChange={handleChange} required />
-          </div>
-          <div>
-            <label>Status:</label>
-            <select name="status" value={task.status} onChange={handleChange} required>
-              <option value="">Select Status</option>
-              <option value="Pending">Pending</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </div>
-          <div>
-            <label>Assign To:</label>
-            <select name="assignTo" value={task.assignTo} onChange={handleChange} required>
-              <option value="">Select User</option>
-              {users.map((user) => (
-                <option key={user._id} value={user.email}>{user.email}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label>Remark:</label>
-            <textarea name="remark" value={task.remark} onChange={handleChange} required></textarea>
-          </div>
-          <button type="submit">Create Task</button>
-        </form>
-        <div>
-          <button onClick={() => navigate('/tasks')}>
-            <h3>Tasks</h3>
-          </button>
-        </div>
-        <button onClick={() => navigate('/UpdatePassword')}>
-          <h2>Update Password</h2>
-        </button>
-      </div>
+      <div
+  style={{backgroundColor: color,minHeight: "90vh",width: "1270px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: "Arial, sans-serif",
+  }}
+>
+  <form
+    onSubmit={handleSubmit}
+    style={{
+      background: "white",
+      padding: "1.9rem",
+      borderRadius: "12px",
+      boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+      width: "400px",
+      textAlign: "left",
+    }}
+  >
+    <h2 style={{ textAlign: "center", color: "#333", marginBottom: "1rem" }}>
+      Create Task
+    </h2>
+    <div style={{ marginBottom: "1rem" }}>
+      <label style={{ fontWeight: "bold", color: "#555" }}>Task Name:</label>
+      <input
+        type="text"
+        name="taskName"
+        value={task.taskName}
+        onChange={handleChange}
+        required
+        style={{
+          width: "100%",
+          padding: "5px",
+          border: "1px solid #ccc",
+          borderRadius: "6px",
+          fontSize: "1rem",
+        }}
+      />
+    </div>
+    <div style={{ marginBottom: "1rem" }}>
+      <label style={{ fontWeight: "bold", color: "#555" }}>Due Date:</label>
+      <input
+        type="date"
+        name="dueDate"
+        value={task.dueDate}
+        onChange={handleChange}
+        required
+        style={{
+          width: "100%",
+          padding: "5px",
+          border: "1px solid #ccc",
+          borderRadius: "6px",
+          fontSize: "1rem",
+        }}
+      />
+    </div>
+    <div style={{ marginBottom: "1rem" }}>
+      <label style={{ fontWeight: "bold", color: "black" }}>Status:</label>
+      <select
+        name="status"
+        value={task.status}
+        onChange={handleChange}
+        required
+        style={{
+          width: "100%",
+          padding: "5px",
+          border: "1px solid #ccc",
+          borderRadius: "6px",
+          fontSize: "1rem",
+          background: "white",
+        }}
+      >
+        <option value="" style={{color:'black'}}>Select Status</option>
+        <option value="Pending" style={{color:'black'}}>Pending</option>
+        <option value="In Progress" style={{color:'black'}}>In Progress</option>
+        <option value="Completed" style={{color:'black'}}>Completed</option>
+      </select>
+    </div>
+    <div style={{ marginBottom: "1rem" }}>
+      <label style={{ fontWeight: "bold", color: "#555" }}>Assign To:</label>
+      <select
+        name="assignTo"
+        value={task.assignTo}
+        onChange={handleChange}
+        required
+        style={{
+          width: "100%",
+          padding: "5px",
+          border: "1px solid #ccc",
+          borderRadius: "6px",
+          fontSize: "1rem",
+          background: "white",
+        }}
+      >
+        <option value="">Select User</option>
+        {users.map((user) => (
+          <option key={user._id} value={user.email} style={{color:'black'}}>
+            {user.email}
+          </option>
+        ))}
+      </select>
+    </div>
+    <div style={{ marginBottom: "1rem" }}>
+      <label style={{ fontWeight: "bold", color: "#555" }}>Remark:</label>
+      <textarea
+        name="remark"
+        value={task.remark}
+        onChange={handleChange}
+        required
+        style={{
+          width: "100%",
+          padding: "10px",
+          border: "1px solid #ccc",
+          borderRadius: "6px",
+          fontSize: "1rem",
+          minHeight: "80px",
+        }}
+      ></textarea>
+    </div>
+    <button
+      type="submit"
+      style={{
+        width: "100%",
+        padding: "10px",
+        border: "none",
+        borderRadius: "6px",
+        fontSize: "1rem",
+        fontWeight: "bold",
+        cursor: "pointer",
+        background: "#28a745",
+        color: "white",
+        transition: "0.3s",
+      }}
+      onMouseOver={(e) => (e.target.style.background = "#218838")}
+      onMouseOut={(e) => (e.target.style.background = "#28a745")}
+    >
+      Create Task
+    </button>
+  </form>
+
+  <div style={{ marginTop: "1rem" }}>
+    <button
+      onClick={() => navigate("/tasks")}
+      style={{
+        background: "#007bff",
+        color: "white",
+        padding: "10px 20px",
+        borderRadius: "6px",
+        fontSize: "1rem",
+        border: "none",
+        cursor: "pointer",
+        fontWeight: "bold",
+        transition: "0.3s",
+      }}
+      onMouseOver={(e) => (e.target.style.background = "#0056b3")}
+      onMouseOut={(e) => (e.target.style.background = "#007bff")}
+    >
+      Tasks
+    </button>
+  </div>
+
+  <button
+    onClick={() => navigate("/UpdatePassword")}
+    style={{
+      marginTop: "1rem",
+      background: "#ffc107",
+      color: "#333",
+      padding: "10px 20px",
+      borderRadius: "6px",
+      fontSize: "1rem",
+      border: "none",
+      cursor: "pointer",
+      fontWeight: "bold",
+      transition: "0.3s",
+    }}
+    onMouseOver={(e) => (e.target.style.background = "#e0a800")}
+    onMouseOut={(e) => (e.target.style.background = "#ffc107")}
+  >
+    Update Password
+  </button>
+</div>
+
     );
   };
 

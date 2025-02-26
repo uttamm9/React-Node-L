@@ -37,44 +37,46 @@ const Signup = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Name:</label>
-        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-      </div>
-      <div>
-        <label>Email:</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-      </div>
-      <div>
-        <label>Phone:</label>
-        <input type="text" name="phone" value={formData.phone} onChange={handleChange} required />
-      </div>
-      <div>
-        <label>Role:</label>
-        <select name="role" value={formData.role} onChange={handleChange} required>
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-          <option value="student">Student</option>
-        </select>
-      </div>
-      <div>
-        <label>Address:</label>
-        <input type="text" name="address" value={formData.address} onChange={handleChange} required />
-      </div>
-      <div>
-        <label>Favorite Color:</label>
-        <input type="color" name="color" value={formData.color} onChange={handleChange} required />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-      </div>
-      <button type="submit">Sign Up</button>
-      <div>
-      <button type="button" onClick={() => navigate('/login')}>Already have an account?</button>
-      </div>
-    </form>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', padding: '20px', border: '1px solid #ccc', borderRadius: '10px', backgroundColor: '#f9f9f9' }}>
+        <div style={{ marginBottom: '10px' }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: 'black' }}>Name:</label>
+          <input type="text" name="name" value={formData.name} onChange={handleChange} required style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: 'black' }}>Email:</label>
+          <input type="email" name="email" value={formData.email} onChange={handleChange} required style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: 'black' }}>Phone:</label>
+          <input type="text" name="phone" value={formData.phone} onChange={handleChange} required style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: 'black' }}>Role:</label>
+          <select name="role" value={formData.role} onChange={handleChange} required style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+            <option value="student">Student</option>
+          </select>
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: 'black' }}>Address:</label>
+          <input type="text" name="address" value={formData.address} onChange={handleChange} required style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: 'black' }}>Favorite Color:</label>
+          <input type="color" name="color" value={formData.color} onChange={handleChange} required style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: 'black' }}>Password:</label>
+          <input type="password" name="password" value={formData.password} onChange={handleChange} required style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        </div>
+        <button type="submit" style={{ padding: '10px', backgroundColor: '#007BFF', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Sign Up</button>
+        <div style={{ marginTop: '10px' }}>
+          <button type="button" onClick={() => navigate('/login')} style={{ padding: '10px', backgroundColor: '#6c757d', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Already have an account?</button>
+        </div>
+      </form>
+    </div>
   );
 };
 
