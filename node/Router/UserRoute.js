@@ -17,5 +17,7 @@ router.delete('/delete/:id',auth,userController.delete)
 
 router.patch('/update',auth,userController.update)
 
+router.post('/sendmail',auth,userController.sendMail)
+
 
 module.exports = router;

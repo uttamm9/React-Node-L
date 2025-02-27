@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const secretkey = 'dv5v45g455eer34ff5tt545ge34'
 const monent = require('moment')
 const otp = Math.floor(1000 + Math.random() * 9000);
-
+const nodemailer = require('nodemailer')
 exports.signUp = async(req,res)=>{
   const {name,email,password} = req.body;
   const expireOTP = monent().add(10,'minutes');
@@ -125,4 +125,32 @@ exports.delete = async(req,res)=>{
     res.status(404).json({msg:"recod not found"})
   }
   res.status(200).json({msg:"Data deleted",newData})
+}
+
+exports.sendMail = async(req,res)=>{
+  const {to,subject,text} = req.body;
+  // const userEmail = await userModel.findOne({
+  //   email:email
+  // })
+
+  const transporter = nodemailer.createTransport({
+
+    host:'smtp.gmail.com',
+    port:587,
+    auth:{
+      user:'uttamftspl@gmail.com',
+      pass:'wlxj plim jsij fvzv'
+    }
+  });
+  const MailInfo = await transporter.sendMail({
+    from:'uttamftspl@gmail.com',
+    to:to,
+    subject:subject,
+    text:text
+  })
+
+  console.log(">>><<>Mial info>>>",MailInfo)
+  if(MailInfo.messageId){
+    res.status(200).json({msg:"Email sent succesfully"})
+  }
 }

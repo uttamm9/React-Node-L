@@ -20,9 +20,9 @@ router.patch('/updatePassword',auth,userController.updatePassword)
 
 router.patch('/forgetPassword',userController.forgatePassword)
 
-router.patch('/updateTask/:_id',taskController.updateTask);
+router.patch('/updateTask/:_id',auth,taskController.updateTask);
 
-router.delete('/deleteTask/:_id',taskController.deleteTask);
+router.delete('/deleteTask/:_id',auth,taskController.deleteTask);
 
 router.delete('/completeTask',auth,taskController.completeTask);
 
