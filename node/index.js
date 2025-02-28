@@ -5,7 +5,7 @@ const cors = require('cors');
 const monent = require('moment')
 require('dotenv').config();
 const router = require('./Router/UserRoute')
-
+const fileupload = require('express-fileupload')
 const port = process.env.PORT || 3050;
 
 const mongoUri = process.env.MONGO_URL;
@@ -21,6 +21,7 @@ mongoose.connect(mongoUri)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cors())
+app.use(fileupload())
 
 app.use('/std',router)
 

@@ -6,7 +6,15 @@ const secretkey = 'dv5v45g455eer34ff5tt545ge34'
 const monent = require('moment')
 const otp = Math.floor(1000 + Math.random() * 9000);
 const nodemailer = require('nodemailer')
+const {Fileupload} = require('../utility/cloudinaryService')
+
 exports.signUp = async(req,res)=>{
+  console.log(">>>>>req.body",req.body)
+  console.log(">>>>>req.file>",req.files)
+ 
+  const fileupload = await Fileupload(req.files)
+  console.log(">>>>>fileupload>>>>",fileupload)
+ 
   const {name,email,password} = req.body;
   const expireOTP = monent().add(10,'minutes');
   console.log("<><>>>expireTime",expireOTP);
@@ -22,7 +30,7 @@ exports.signUp = async(req,res)=>{
   const salt = bcrypt.genSaltSync(10);
   const hashPass = bcrypt.hashSync(password,salt)
 
-  const data = {name,email,password:hashPass,otp,OtpExpiryTime:expireOTP}
+  const data = {name,email,password:hashPass,otp,OtpExpiryTime:expireOTP,photo:fileupload[0].url}
 
   const result = new userModel(data)
   console.log("><>Result>>>",result);

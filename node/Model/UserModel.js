@@ -21,6 +21,10 @@ const user = new Schema({
  },
  OtpExpiryTime:{
   type:String
+ },
+ photo:{
+  type:String,
+  required:false
  }
 },{versionKey:false,timestamps:true})
 
