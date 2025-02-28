@@ -26,12 +26,13 @@ const Signup = () => {
     axios.post('http://localhost:7070/API/signup', { ...formData })
       .then((res) => {
         console.log('Data saved', res);
+        alert(res.data.message);
         navigate('/login');
       })
       .catch((err) => {
         console.log('Error saving data', err);
+        alert(err.response.data.message);
       });
-      alert('Data saved');
     console.log('Form Data Submitted: ', formData);
 
   };

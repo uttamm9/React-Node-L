@@ -134,6 +134,7 @@ import axios from 'axios';
           borderRadius: "6px",
           fontSize: "1rem",
           background: "white",
+          color:"black"
         }}
       >
         <option value="" style={{color:'black'}}>Select Status</option>
@@ -156,6 +157,7 @@ import axios from 'axios';
           borderRadius: "6px",
           fontSize: "1rem",
           background: "white",
+          color:"black"
         }}
       >
         <option value="">Select User</option>

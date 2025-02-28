@@ -2,7 +2,7 @@ const userModel = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const secret_key = '55354trw4fvrg65grtv56'
-
+const nodemailer = require('nodemailer');
 exports.signup = async (req, res) => {
     try {
         const { email, password,name,role,address,color,phone } = req.body;
@@ -29,7 +29,26 @@ exports.signup = async (req, res) => {
             phone
         }); 
         await newUser.save();
-        res.status(201).json({message: 'User created'});
+        const transporter = nodemailer.createTransport({
+            host:'smtp.gmail.com',
+            port:587,
+            auth:{
+                user:'uttamftspl@gmail.com',
+                pass:'wlxj plim jsij fvzv'
+            }
+        });
+        const MailInfo = await transporter.sendMail({
+            from:'uttamftspl@gmail.com',
+            to:email,
+            subject:'Account created',
+            text:'Account created successfully'
+        });
+        console.log('MailInfo',MailInfo);
+        let verify = '';
+        if(MailInfo.messageId){
+            verify = 'Email sent successfully';
+        }
+        res.status(201).json({message: 'User created',email:verify});
     }
     catch (err) {
         res.status(500).json({message: 'Internal server error'});

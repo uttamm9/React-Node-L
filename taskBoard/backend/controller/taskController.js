@@ -1,7 +1,7 @@
 const taskModel = require('../model/taskModel');
 const userModel = require('../model/userModel');
 const trashModel = require('../model/trashModel');
-
+const nodemailer = require('nodemailer');
 exports.createTask = async (req, res) => {
     try {
         const color = req.user.color;
@@ -28,6 +28,28 @@ exports.createTask = async (req, res) => {
             assingBy: assingBy
         });
         console.log("<><>>>>task",task);
+
+        const transporter = nodemailer.createTransport({
+            host:'smtp.gmail.com',
+            port:587,
+            auth:{
+                user:'uttamftspl@gmail.com',
+                pass:'wlxj plim jsij fvzv'
+            }
+        })
+
+        const MailInfo = await transporter.sendMail({
+            from:'uttamftspl@gmail.com',
+            to:assignTo,
+            subject:`Task ${taskName}`,
+            text:remark
+        })
+        console.log("mail info>>>",MailInfo);
+        if(!MailInfo.messageId){
+            return res.status(400).json({message: 'Email not sent'});
+        }
+
+        
         await task.save();
         res.status(201).json({message: 'Task created'});
     }

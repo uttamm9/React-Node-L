@@ -17,11 +17,11 @@ const Login = () => {
         localStorage.setItem('color', res.data.color);
         localStorage.setItem('token', res.data.token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
-        alert('login sussesful');
+        alert(res.data.message);
         navigate('/createTask');
       })
       .catch((err) => {
-        alert('get error');
+        alert(err.response.data.message);
       });
   
   };

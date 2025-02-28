@@ -21,6 +21,7 @@ const Tasks = () => {
     }
     catch (error) {
       console.error(error);
+      alert(err.response.data.message);
     }
   }
 
@@ -36,6 +37,7 @@ const Tasks = () => {
     }
     catch (error) {
       console.error(error);
+      alert(err.response.data.message);
     }
   }
 
@@ -54,6 +56,7 @@ const Tasks = () => {
       setEdituser({taskName: '', dueDate: '', status: '', remark: '', assignTo: ''});
     } catch (error) {
       console.error('There was an error updating the task!', error);
+      alert(err.response.data.message);
     } 
   }
 
@@ -71,6 +74,7 @@ const Tasks = () => {
     }
     catch (error) {
       console.error('There was an error deleting the task!', error);
+      alert(err.response.data.message);
     }
   }
 
@@ -89,6 +93,7 @@ const Tasks = () => {
       getMyTask();
     } catch (error) {
       console.error('There was an error completing the task!', error);
+      alert(err.response.data.message);
     }
   }
 
