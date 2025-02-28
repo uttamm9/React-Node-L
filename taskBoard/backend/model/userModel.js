@@ -26,6 +26,15 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String
+  },
+  file:{
+    type:String
+  },
+  otp: {
+    type: String
+  },
+  otpTime: {
+    type: Date
   }
 },{versionKey: false});
 
