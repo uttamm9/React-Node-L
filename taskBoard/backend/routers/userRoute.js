@@ -26,6 +26,8 @@ router.delete('/deleteTask/:_id',auth,taskController.deleteTask);
 
 router.delete('/completeTask',auth,taskController.completeTask);
 
+router.get('/getCompletedTask',auth,taskController.getCompletedTask)
+
 router.post('/getOTP',userController.getOTP);
 
 module.exports = router;

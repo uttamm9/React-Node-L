@@ -11,19 +11,35 @@ exports.createTask = async (req, res) => {
 
         if(!(taskName && dueDate && status && assignTo && remark)) {
             return res.status(400).json({
-                message: 'All fields are required'
+            message: 'All fields are required'
             });
         }
         const assingtoData = await userModel.findOne({email: assignTo});
         if(!assingtoData) {
             return res.status(400).json({message: 'Assign to email not found'});
-        } 
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+
+        const tasksAssignedToday = await taskModel.countDocuments({
+            assignTo: assingtoData._id,
+            createdAt: { $gte: today, $lt: tomorrow }
+        });
+
+        if (tasksAssignedToday >= 5) {
+            return res.status(400).json({message: 'User already has 5 tasks assigned for today'});
+        }
+        console.log("count>>>",tasksAssignedToday)
+        
         const assingBy = req.user._id;
         const task = new taskModel({
             taskName,
             dueDate,
             status,
-            assignTo:assingtoData,
+            assignTo: assingtoData,
             remark,
             assingBy: assingBy
         });
@@ -173,4 +189,10 @@ exports.completeTask = async (req, res) => {
     catch (err) {
         res.status(500).json({message: 'Internal server error'});
     }
+}
+
+exports.getCompletedTask = async(req,res)=>{
+    const _id = req.user._id;
+    const completeTask = await trashModel.find({assignTo:_id}).populate('assingBy')
+    res.status(200).json(completeTask)
 }

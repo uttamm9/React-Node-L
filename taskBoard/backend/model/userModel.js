@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
   otpTime: {
     type: Date
   }
-},{versionKey: false});
+},{versionKey: false,timestamps:true});
 
 const User = mongoose.model('User', userSchema);
 

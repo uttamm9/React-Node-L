@@ -31,5 +31,5 @@ const trashSchema = new mongoose.Schema({
       type: Boolean,
       default: true
     }
-});
+},{versionKey:false,timestamps:true});
 module.exports = mongoose.model('Trash', trashSchema);

@@ -8,6 +8,8 @@ const Tasks = () => {
   const [module, setModule] = useState(false);
   const [edituser, setEdituser] = useState(null);
   const color = localStorage.getItem('color'); 
+  const [completetask, setCompleteTask] = useState([])
+  const [getCompletedTaskList, setgetCompleteTaskList] = useState(false)
   const Navigate = useNavigate();
   const getMyTask = async () => {
     try {
@@ -16,8 +18,16 @@ const Tasks = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
+      const completeTask = await axios.get('http://localhost:7070/API/getCompletedTask',{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
       console.log("My Task",response.data);
       setMyTask(response.data);
+      setCompleteTask(completeTask.data)
+      console.log(completeTask.data)
+
     }
     catch (error) {
       console.error(error);
@@ -146,6 +156,34 @@ const Tasks = () => {
             ))}
           </tbody>
         </table>
+        <div>
+            <span>Pending Task {tasks.length}</span> <br />
+            <button onClick={()=>setgetCompleteTaskList(true)} >complete Task  {completetask.length}</button>
+           {getCompletedTaskList && <table>
+            <thead>
+            <tr>
+              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Task Name</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Due Date</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Status</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Remark</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Assigned By</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {completetask.map((task, index) => (
+              <tr key={index}>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.taskName}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.dueDate.slice(0,10)}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.status}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.remark}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.assingBy.name}</td>
+                
+              </tr>
+            ))}
+          </tbody>
+          </table> }
+        </div>
       </div>
       <div>
         <h1 style={{ color: '#555' }}>My Assigned Task</h1>

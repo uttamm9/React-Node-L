@@ -13,10 +13,16 @@ import axios from 'axios';
     const color = localStorage.getItem('color');
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
+    const [minDate, setMinDate] = useState('');
 
+    const SetDate = ()=>{
+      const today = new Date().toISOString().split('T')[0];
+      setMinDate(today)
+    }
 
     useEffect(() => {
       fetchUsers();
+      SetDate()
     }, []);
 
     const fetchUsers = async () => {
@@ -58,7 +64,8 @@ import axios from 'axios';
           navigate('/tasks');
         })
         .catch((error) => {
-          console.log(error);
+          console.log("error",error);
+          alert(error.response.data.message)
         });
     };
 
@@ -111,6 +118,7 @@ import axios from 'axios';
         value={task.dueDate}
         onChange={handleChange}
         required
+        min={minDate}
         style={{
           width: "100%",
           padding: "5px",
