@@ -19,5 +19,7 @@ router.patch('/update',auth,userController.update)
 
 router.post('/sendmail',auth,userController.sendMail)
 
+router.post('/TTS',userController.TTS)
+
 
 module.exports = router;

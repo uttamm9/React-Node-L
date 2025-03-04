@@ -7,6 +7,7 @@ const monent = require('moment')
 const otp = Math.floor(1000 + Math.random() * 9000);
 const nodemailer = require('nodemailer')
 const {Fileupload} = require('../utility/cloudinaryService')
+const google = require('google-tts-api')
 
 exports.signUp = async(req,res)=>{
   console.log(">>>>>req.body",req.body)
@@ -161,4 +162,16 @@ exports.sendMail = async(req,res)=>{
   if(MailInfo.messageId){
     res.status(200).json({msg:"Email sent succesfully"})
   }
+}
+
+exports.TTS = async(req,res)=>{
+  const {text} = req.body;
+  
+  const url = google.getAudioUrl(text,{
+    lang:'en',
+    slow:false,
+    host:'https://translate.google.com'
+  })
+  console.log(url)
+  res.status(200).json(url)
 }
