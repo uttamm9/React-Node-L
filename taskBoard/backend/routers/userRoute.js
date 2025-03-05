@@ -24,9 +24,11 @@ router.patch('/updateTask/:_id',auth,taskController.updateTask);
 
 router.delete('/deleteTask/:_id',auth,taskController.deleteTask);
 
-router.delete('/completeTask',auth,taskController.completeTask);
+router.delete('/archiveTask',auth,taskController.archiveTask);
 
 router.get('/getCompletedTask',auth,taskController.getCompletedTask)
+
+router.post('/completetask',auth,taskController.completeTask)
 
 router.post('/getOTP',userController.getOTP);
 

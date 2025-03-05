@@ -6,7 +6,6 @@ import axios from 'axios';
     const [task, setTask] = useState({
       taskName: '',
       dueDate: '',
-      status: '',
       assignTo: '',
       remark: ''
     });
@@ -128,29 +127,7 @@ import axios from 'axios';
         }}
       />
     </div>
-    <div style={{ marginBottom: "1rem" }}>
-      <label style={{ fontWeight: "bold", color: "black" }}>Status:</label>
-      <select
-        name="status"
-        value={task.status}
-        onChange={handleChange}
-        required
-        style={{
-          width: "100%",
-          padding: "5px",
-          border: "1px solid #ccc",
-          borderRadius: "6px",
-          fontSize: "1rem",
-          background: "white",
-          color:"black"
-        }}
-      >
-        <option value="" style={{color:'black'}}>Select Status</option>
-        <option value="Pending" style={{color:'black'}}>Pending</option>
-        <option value="In Progress" style={{color:'black'}}>In Progress</option>
-        <option value="Completed" style={{color:'black'}}>Completed</option>
-      </select>
-    </div>
+
     <div style={{ marginBottom: "1rem" }}>
       <label style={{ fontWeight: "bold", color: "#555" }}>Assign To:</label>
       <select

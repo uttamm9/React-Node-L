@@ -18,15 +18,18 @@ const Tasks = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      const completeTask = await axios.get('http://localhost:7070/API/getCompletedTask',{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      })
       console.log("My Task",response.data);
-      setMyTask(response.data);
-      setCompleteTask(completeTask.data)
-      console.log(completeTask.data)
+      const completetask = []
+      const pendingtask = []
+      {response.data.map((task)=>{
+        if(task.status === "Complete"){
+          completetask.push(task)
+        }else{
+         pendingtask.push(task)
+        }
+      })}
+      setMyTask(pendingtask)
+      setCompleteTask(completetask)
 
     }
     catch (error) {
@@ -88,19 +91,38 @@ const Tasks = () => {
     }
   }
 
-  const completeTask = async(task) => {
-    console.log("complete id", task);
+  const archiveTask = async(task) => {
+    console.log("Archive id", task);
     try {
-      await axios.request({
+      const response = await axios.request({
         method: 'delete',
-        url: 'http://localhost:7070/API/completeTask',
+        url: 'http://localhost:7070/API/archiveTask',
         data: { ...task },
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      alert('Task completed successfully');
+      alert(response.data.message);
       getMyTask();
+    } catch (error) {
+      console.error('There was an error completing the task!', error);
+      alert(err.response.data.message);
+    }
+  }
+
+  const completedTask = async(task)=>{
+    console.log("completed task ID",task._id)
+    try {
+      const response = await axios.request({
+        method:"post",
+        url:'http://localhost:7070/API/completetask',
+        data:{...task},
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      alert(response.data.message)
+      getMyTask()
     } catch (error) {
       console.error('There was an error completing the task!', error);
       alert(err.response.data.message);
@@ -113,13 +135,13 @@ const Tasks = () => {
   },[]);
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', color: '#555', backgroundColor: color, height: '100vh', width: '1210px' }}>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', color: '#555', backgroundColor: color, width: '1210px' }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>  
           
         <button onClick={() => {
-          localStorage.removeItem('token');
-          // window.location.href = '/login';
+            localStorage.clear();
+          
             Navigate('/login');
             }} style={{ padding: '10px 20px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
             Logout
@@ -140,7 +162,8 @@ const Tasks = () => {
               <th style={{ border: '1px solid #ddd', padding: '8px' }}>Status</th>
               <th style={{ border: '1px solid #ddd', padding: '8px' }}>Remark</th>
               <th style={{ border: '1px solid #ddd', padding: '8px' }}>Assigned By</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Mark as</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Complete</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Archive</th>
             </tr>
           </thead>
           <tbody>
@@ -151,14 +174,19 @@ const Tasks = () => {
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.status}</td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.remark}</td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.assingBy.name}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}><button onClick={()=>{completeTask(task)}}>Mark as Done</button></td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}><button
+                style={{backgroundColor:'green'}}
+                 onClick={()=>{completedTask(task)}}>Complete</button></td>
+                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                  <button onClick={()=>{archiveTask(task)}}>Archive</button>
+                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         <div>
             <span>Pending Task {tasks.length}</span> <br />
-            <button onClick={()=>setgetCompleteTaskList(true)} >complete Task  {completetask.length}</button>
+            <button onClick={()=>setgetCompleteTaskList(!getCompletedTaskList)} >complete Task  {completetask.length}</button>
            {getCompletedTaskList && <table>
             <thead>
             <tr>

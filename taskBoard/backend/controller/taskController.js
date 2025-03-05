@@ -6,10 +6,10 @@ exports.createTask = async (req, res) => {
     try {
         const color = req.user.color;
         console.log("color",color);
-        const { taskName, dueDate, status, assignTo, remark } = req.body;
+        const { taskName, dueDate, assignTo, remark } = req.body;
         console.log("<><>>>>>>>>>>req.body",req.body);
 
-        if(!(taskName && dueDate && status && assignTo && remark)) {
+        if(!(taskName && dueDate && assignTo && remark)) {
             return res.status(400).json({
             message: 'All fields are required'
             });
@@ -38,7 +38,6 @@ exports.createTask = async (req, res) => {
         const task = new taskModel({
             taskName,
             dueDate,
-            status,
             assignTo: assingtoData,
             remark,
             assingBy: assingBy
@@ -161,7 +160,37 @@ exports.deleteTask = async (req, res) => {
     }
 }
 
-exports.completeTask = async (req, res) => {
+exports.completeTask = async(req,res)=>{
+    try {
+        const {_id} = req.body;
+        if(!_id){
+            return res.status(404).json({message:"Task id requird"})
+        }
+        const pendingTask = await taskModel.findById({_id})
+        if(!pendingTask){
+            return res.status(404).json({message:"Task not found"})
+        }
+
+        const completeTask = new taskModel({
+            taskName: pendingTask.taskName,
+            dueDate: pendingTask.dueDate,
+            status: "Complete",
+            assignTo: pendingTask.assignTo,
+            remark: pendingTask.remark,
+            assingBy: pendingTask.assingBy,
+            isActive: pendingTask.isActive
+        })
+        console.log("completed Task >>",completeTask)
+        await completeTask.save()
+
+        res.status(200).json({message:"Task Completed"})
+
+    } catch (error) {
+       return res.status(500).json({message: 'Internal server error'});
+    }
+}
+
+exports.archiveTask = async (req, res) => {
     try {
         const { _id } = req.body;
         console.log('body>>>',req.body);
@@ -175,16 +204,16 @@ exports.completeTask = async (req, res) => {
         const trash = new trashModel({
             taskName: task.taskName,
             dueDate: task.dueDate,
-            status: "completed",
+            status: task.status,
             assignTo: task.assignTo,
             remark: task.remark,
             assingBy: task.assingBy,
             isActive: false
         });
-        console.log("completed task",trash);
+        console.log("Archive task",trash);
         await trash.save();
         await taskModel.findOneAndDelete({_id});
-        res.status(200).json({message: 'Task completed'});
+        res.status(200).json({message: 'Task Archive'});
     }
     catch (err) {
         res.status(500).json({message: 'Internal server error'});
