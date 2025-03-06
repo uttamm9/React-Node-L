@@ -136,22 +136,30 @@ const Tasks = () => {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', color: '#555', backgroundColor: color, width: '1210px' }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>  
-          
-        <button onClick={() => {
-            localStorage.clear();
-          
-            Navigate('/login');
-            }} style={{ padding: '10px 20px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-            Logout
-            </button>
-            <button onClick={() => Navigate('/createTask')} style={{ padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '10px' }}>
-            Create Task
-            </button>
-        </div>
-        
-            </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+  {/* First div aligned to the right */}
+  <div style={{ padding: '10px', color:'whitesmoke' }}>
+    <h2 >Hi {localStorage.getItem('name')}</h2>
+  </div>
+
+  {/* Second div aligned to the left */}
+  <div style={{ display: 'flex', gap: '10px' }}>
+    <button onClick={() => {
+      localStorage.clear();
+      Navigate('/login');
+    }} 
+    style={{ padding: '10px 20px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+      Logout
+    </button>
+
+    <button onClick={() => Navigate('/createTask')} 
+    style={{ padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+      Create Task
+    </button>
+  </div>
+</div>
+
+
             <div style={{ marginBottom: '10px' }}>
             <h1 style={{ color: '#555' }}>My Tasks</h1>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>

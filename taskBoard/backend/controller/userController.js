@@ -68,6 +68,7 @@ exports.login = async (req, res) => {
             return res.status(400).json({message: 'User not found'});
         }
         const color = user.color;
+        const name = user.name;
         console.log("color",color);
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
@@ -77,7 +78,7 @@ exports.login = async (req, res) => {
         }
         const token = jwt.sign({_id: user._id},secret_key,{expiresIn: '1d'});
 
-        res.status(200).json({message:"Login Succesful",token,color});
+        res.status(200).json({message:"Login Succesful",token,color,name});
     }
     catch (err) {
         res.status(500).json({

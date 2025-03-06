@@ -16,6 +16,7 @@ const Login = () => {
         console.log('>>>>result>>>',res.data.color);
         localStorage.setItem('color', res.data.color);
         localStorage.setItem('token', res.data.token);
+        localStorage.setItem('name',res.data.name)
         axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
         alert(res.data.message);
         navigate('/createTask');

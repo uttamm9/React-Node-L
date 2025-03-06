@@ -78,6 +78,9 @@ import axios from 'axios';
     fontFamily: "Arial, sans-serif",
   }}
 >
+  <div style={{display:'inline-block', marginRight:'1000px'}}>
+  <h2> hii {localStorage.getItem('name')}</h2>
+  </div>
   <form
     onSubmit={handleSubmit}
     style={{
