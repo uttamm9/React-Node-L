@@ -7,6 +7,7 @@ import CreateTask from './components/createTask'
 import Tasks from './components/Tasks'
 import UpdatePassword from './components/update_password'
 import Forg from './components/forgate_password'
+import UploadExcel from './components/UploadExcel'
 function App() {
 
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/tasks" element={<Tasks/>} />
         <Route path='/UpdatePassword' element={<UpdatePassword/>} />
         <Route path='/forgatePassword' element={<Forg/>} />
+        <Route path='/uploadExcel' element = {<UploadExcel/>}/>
         <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
     </BrowserRouter>

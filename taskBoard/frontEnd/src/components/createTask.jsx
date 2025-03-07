@@ -83,7 +83,7 @@ import axios from 'axios';
       <h2> hii {localStorage.getItem('name')}</h2>
       </div>
     <div style={{margin:'15px'}}>
-      <button>upload from excel</button>
+      <button onClick={()=>navigate('/uploadExcel')}>upload from excel</button>
     </div>
   
   </div>

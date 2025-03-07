@@ -10,6 +10,8 @@ router.post('/login',userController.login);
 
 router.post('/createTask',auth,taskController.createTask);
 
+router.post('/createfromExcel',auth,taskController.createTaskFromExcel)
+
 router.get('/getuser',auth,taskController.getuser);
 
 router.get('/getTask',auth,taskController.myTask);

@@ -2,6 +2,9 @@ const taskModel = require('../model/taskModel');
 const userModel = require('../model/userModel');
 const trashModel = require('../model/trashModel');
 const nodemailer = require('nodemailer');
+const xlsx = require('xlsx');
+const { json } = require('express');
+
 exports.createTask = async (req, res) => {
     try {
         const color = req.user.color;
@@ -70,6 +73,43 @@ exports.createTask = async (req, res) => {
     }
     catch (err) {
         res.status(500).json({message: 'Internal server error'});
+    }
+}
+
+exports.createTaskFromExcel = async(req, res) => {
+    try {
+        const file = req.files.file;
+        const workbook = xlsx.read(file.data, { type: 'buffer' });
+        console.log('WORKBOOK >>>>',workbook);
+        const sheetName = workbook.SheetNames[0];
+        console.log("sheetname>>>>",sheetName);
+        const worksheet = workbook.Sheets[sheetName];
+        console.log("worksheet>>>",worksheet)
+        const jsonData = xlsx.utils.sheet_to_json(worksheet);
+        console.log('jsonData>>>',jsonData)
+        return;
+        for (const data of jsonData) {
+            const { taskName, dueDate, assignTo, remark } = data;
+            const assingtoData = await userModel.findOne({ email: assignTo });
+            if (!assingtoData) {
+                return res.status(400).json({ message: `Assign to email ${assignTo} not found` });
+            }
+
+            const assingBy = req.user._id;
+            const task = new taskModel({
+                taskName,
+                dueDate,
+                assignTo: assingtoData,
+                remark,
+                assingBy: assingBy
+            });
+
+            await task.save();
+        }
+
+        res.status(201).json({ message: 'Tasks created from Excel file' });
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
 
