@@ -171,17 +171,7 @@ exports.completeTask = async(req,res)=>{
             return res.status(404).json({message:"Task not found"})
         }
 
-        const completeTask = new taskModel({
-            taskName: pendingTask.taskName,
-            dueDate: pendingTask.dueDate,
-            status: "Complete",
-            assignTo: pendingTask.assignTo,
-            remark: pendingTask.remark,
-            assingBy: pendingTask.assingBy,
-            isActive: pendingTask.isActive
-        })
-        console.log("completed Task >>",completeTask)
-        await completeTask.save()
+        await taskModel.updateOne({_id},{status:"Complete"})
 
         res.status(200).json({message:"Task Completed"})
 

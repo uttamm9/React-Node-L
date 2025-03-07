@@ -15,10 +15,11 @@ const ForgatePassword = () => {
         .patch('http://localhost:7070/API/forgetPassword', { email, newPassword,otp })
         .then((res) => {
           console.log(res);
-          alert('Password reset successful.');
+          alert(res.data.message)
         })
         .catch((err) => {
           console.log(err);
+          alert(err.response.data.message)
         });
     } else {
       console.log('Passwords do not match.');
@@ -32,6 +33,7 @@ const getOTP = async()=>{
  
   }catch(err){
     console.log('otp error',err)
+    // alert(err.respo)
   }
 }
 
