@@ -70,7 +70,7 @@ import axios from 'axios';
 
     return (
       <div
-  style={{backgroundColor: color,minHeight: "90vh",width: "1270px",
+  style={{backgroundColor: color,minHeight: "90vh",width: "1255px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -78,8 +78,14 @@ import axios from 'axios';
     fontFamily: "Arial, sans-serif",
   }}
 >
-  <div style={{display:'inline-block', marginRight:'1000px'}}>
-  <h2> hii {localStorage.getItem('name')}</h2>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+    <div style={{margin:'10px'}}> 
+      <h2> hii {localStorage.getItem('name')}</h2>
+      </div>
+    <div style={{margin:'15px'}}>
+      <button>upload from excel</button>
+    </div>
+  
   </div>
   <form
     onSubmit={handleSubmit}
