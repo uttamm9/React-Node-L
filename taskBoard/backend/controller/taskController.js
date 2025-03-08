@@ -4,6 +4,7 @@ const trashModel = require('../model/trashModel');
 const nodemailer = require('nodemailer');
 const xlsx = require('xlsx');
 const { json } = require('express');
+const moment = require('moment')
 
 exports.createTask = async (req, res) => {
     try {
@@ -87,21 +88,22 @@ exports.createTaskFromExcel = async(req, res) => {
         console.log("worksheet>>>",worksheet)
         const jsonData = xlsx.utils.sheet_to_json(worksheet);
         console.log('jsonData>>>',jsonData)
-        return;
+        
         for (const data of jsonData) {
             const { taskName, dueDate, assignTo, remark } = data;
             const assingtoData = await userModel.findOne({ email: assignTo });
             if (!assingtoData) {
-                return res.status(400).json({ message: `Assign to email ${assignTo} not found` });
+            return res.status(400).json({ message: `Assign to email ${assignTo} not found` });
             }
 
+            const formattedDueDate = moment(new Date(Math.round((dueDate - 25569) * 86400 * 1000))).format('DD-MM-YYYY');
             const assingBy = req.user._id;
             const task = new taskModel({
-                taskName,
-                dueDate,
-                assignTo: assingtoData,
-                remark,
-                assingBy: assingBy
+            taskName,
+            dueDate: formattedDueDate,
+            assignTo: assingtoData,
+            remark,
+            assingBy: assingBy
             });
 
             await task.save();
