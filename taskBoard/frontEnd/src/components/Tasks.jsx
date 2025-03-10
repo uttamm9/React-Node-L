@@ -133,9 +133,37 @@ const Tasks = () => {
     getMyTask();
     getMyAssignedTask();
   },[]);
+  
+  const style = {
+    container :{ padding: '20px', fontFamily: 'Arial, sans-serif', color: '#555', backgroundColor: color, width: '1210px' },
+    logout:{ padding: '10px 20px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' },
+    createTask:{ padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' },
+    thtd:{ border: '1px solid #ddd', padding: '8px' },
+    popup_overlay: {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      width: '100%',
+      height: '100%',
+      background: 'rgba(0, 0, 0, 0.7)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    input: {width: '100%',padding: '8px', marginTop: '5px',border: '1px solid #ccc',
+      borderRadius: '5px',
+      fontSize: '14px',
+    },
+    lable:{fontWeight:'bold',color:'#f1f1f1'},
+    buttonHover: {
+      '&:hover': {
+        backgroundColor: '#e68900'
+      }
+    }
+    }
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', color: '#555', backgroundColor: color, width: '1210px' }}>
+    <div style={style.container}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
   {/* First div aligned to the right */}
   <div style={{ padding: '10px', color:'whitesmoke' }}>
@@ -148,44 +176,42 @@ const Tasks = () => {
       localStorage.clear();
       Navigate('/login');
     }} 
-    style={{ padding: '10px 20px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+    style={style.logout}>
       Logout
     </button>
 
     <button onClick={() => Navigate('/createTask')} 
-    style={{ padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+    style={style.createTask}>
       Create Task
     </button>
   </div>
 </div>
-
-
             <div style={{ marginBottom: '10px' }}>
             <h1 style={{ color: '#555' }}>My Tasks</h1>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
             <tr>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Task Name</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Due Date</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Status</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Remark</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Assigned By</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Complete</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Archive</th>
+              <th style={style.thtd}>Task Name</th>
+              <th style={style.thtd}>Due Date</th>
+              <th style={style.thtd}>Status</th>
+              <th style={style.thtd}>Remark</th>
+              <th style={style.thtd}>Assigned By</th>
+              <th style={style.thtd}>Complete</th>
+              <th style={style.thtd}>Archive</th>
             </tr>
           </thead>
           <tbody>
             {tasks.map((task, index) => (
               <tr key={index}>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.taskName}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.dueDate.slice(0,10)}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.status}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.remark}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.assingBy.name}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}><button
+                <td style={style.thtd}>{task.taskName}</td>
+                <td style={style.thtd}>{task.dueDate.slice(0,10)}</td>
+                <td style={style.thtd}>{task.status}</td>
+                <td style={style.thtd}>{task.remark}</td>
+                <td style={style.thtd}>{task.assingBy.name}</td>
+                <td style={style.thtd}><button
                 style={{backgroundColor:'green'}}
                  onClick={()=>{completedTask(task)}}>Complete</button></td>
-                 <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                 <td style={style.thtd}>
                   <button onClick={()=>{archiveTask(task)}}>Archive</button>
                  </td>
               </tr>
@@ -198,22 +224,22 @@ const Tasks = () => {
            {getCompletedTaskList && <table>
             <thead>
             <tr>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Task Name</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Due Date</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Status</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Remark</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Assigned By</th>
+              <th style={style.thtd}>Task Name</th>
+              <th style={style.thtd}>Due Date</th>
+              <th style={style.thtd}>Status</th>
+              <th style={style.thtd}>Remark</th>
+              <th style={style.thtd}>Assigned By</th>
               
             </tr>
           </thead>
           <tbody>
             {completetask.map((task, index) => (
               <tr key={index}>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.taskName}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.dueDate.slice(0,10)}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.status}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.remark}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{task.assingBy.name}</td>
+                <td style={style.thtd}>{task.taskName}</td>
+                <td style={style.thtd}>{task.dueDate.slice(0,10)}</td>
+                <td style={style.thtd}>{task.status}</td>
+                <td style={style.thtd}>{task.remark}</td>
+                <td style={style.thtd}>{task.assingBy.name}</td>
                 
               </tr>
             ))}
@@ -226,26 +252,26 @@ const Tasks = () => {
             <table>
               <thead>
                 <tr>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Task Name</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Due Date</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Status</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Remark</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Assigned To</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Update</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Delete</th>
+                  <th style={style.thtd}>Task Name</th>
+                  <th style={style.thtd}>Due Date</th>
+                  <th style={style.thtd}>Status</th>
+                  <th style={style.thtd}>Remark</th>
+                  <th style={style.thtd}>Assigned To</th>
+                  <th style={style.thtd}>Update</th>
+                  <th style={style.thtd}>Delete</th>
                 </tr>
                 
               </thead>
               <tbody>
                 {assignedTasks.map((assignedTasks, index) => (
                   <tr key={index}>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.taskName}</td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.dueDate.slice(0,10)}</td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.status}</td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.remark}</td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{assignedTasks.assignTo.name}</td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}><button onClick={()=>{setModule(true), setEdituser(assignedTasks)}}>Update</button></td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}><button onClick={()=>Delete(assignedTasks._id)}>Delete</button></td>
+                    <td style={style.thtd}>{assignedTasks.taskName}</td>
+                    <td style={style.thtd}>{assignedTasks.dueDate.slice(0,10)}</td>
+                    <td style={style.thtd}>{assignedTasks.status}</td>
+                    <td style={style.thtd}>{assignedTasks.remark}</td>
+                    <td style={style.thtd}>{assignedTasks.assignTo.name}</td>
+                    <td style={style.thtd}><button onClick={()=>{setModule(true), setEdituser(assignedTasks)}}>Update</button></td>
+                    <td style={style.thtd}><button onClick={()=>Delete(assignedTasks._id)}>Delete</button></td>
                   </tr>
                 ))}
               </tbody>
@@ -253,36 +279,40 @@ const Tasks = () => {
       </div>
       <div>
         {module && (
-              <div style={{ width: '300px', color: 'white' }}>
+              <div style={style.popup_overlay}>
                 <form onSubmit={update}>
-                  <div className='popup-inner'>
-                    <label>Task Name:</label>
+                  <div style={style.popup_inner}>
+                    <label style={style.lable}>Task Name:</label>
                     <input
                       type="text"
                       name="taskName"
                       value={edituser.taskName}
                       onChange={(e)=>setEdituser({...edituser,taskName:e.target.value})}
+                      style={style.input}
                     />
                   </div>
-                  <div className='popup-inner'>
-                    <label>Email:</label>
+                  <div>
+                    <label style={style.lable}>Due date:</label>
                     <input
                       type="date"
                       name="dueDate"
                       value={edituser.dueDate}
                       onChange={(e)=>setEdituser({...edituser,dueDate:e.target.value})}
+                      style={style.input}
                     />
                   </div>
                   <div className='popup-inner'>
-                    <label>Remark:</label>
+                    <label style={style.lable}>Remark:</label>
                     <input
                       type="text"
                       name="remark"
                       value={edituser.remark}
                       onChange={(e)=>{setEdituser({...edituser,remark:e.target.value})}}
+                      style={style.input}
                     />
                   </div>
-                  <button type="submit" onClick={()=>{update(edituser._id)}}>Save change</button>
+                  <button type="submit" onClick={()=>{update(edituser._id)}} style={style.buttonHover['&:hover']}>Save change</button>
+                  <button onClick={()=>{setModule(false)}}>cancel</button>
                 </form>
               </div>
         )}
