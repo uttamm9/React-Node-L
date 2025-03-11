@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const {excelFileRead} = require('../Utility/ExcelFileUpload')
 const { json } = require('express');
 const moment = require('moment')
+const {SendMail} = require('../Utility/Nodemailer')
 
 exports.createTask = async (req, res) => {
     try {
@@ -48,27 +49,14 @@ exports.createTask = async (req, res) => {
         });
         console.log("<><>>>>task",task);
 
-        const transporter = nodemailer.createTransport({
-            host:'smtp.gmail.com',
-            port:587,
-            auth:{
-                user:'uttamftspl@gmail.com',
-                pass:'wlxj plim jsij fvzv'
-            }
-        })
-
-        const MailInfo = await transporter.sendMail({
-            from:'uttamftspl@gmail.com',
-            to:assignTo,
-            subject:`Task ${taskName}`,
-            text:remark
-        })
+        const MailInfo = await SendMail(assignTo, `Task ${taskName}`, remark);
+       
         console.log("mail info>>>",MailInfo);
         if(!MailInfo.messageId){
             return res.status(400).json({message: 'Email not sent'});
         }
 
-        
+
         await task.save();
         res.status(201).json({message: 'Task created'});
     }
@@ -94,20 +82,11 @@ exports.createTaskFromExcel = async(req, res) => {
             }
 
             const formattedDueDate = moment(new Date(Math.round((dueDate - 25569) * 86400 * 1000))).format('DD-MM-YYYY');
-            console.log("formate date>>>",typeof(formattedDueDate));
+           
             const format = moment(formattedDueDate,"DD-MM-YYYY").format()
-            console.log("formate >>>",typeof(format));
-            console.log(`>>>format>>>>`,format);
             
             const assingBy = req.user._id;
-            // const dat ={
-            //     taskName,
-            //     dueDate :format,
-            //     assignTo: assingtoData._id,
-            //     remark,
-            //     assingBy: assingBy
-            // }
-            // console.log(`>>>data>>>`,dat);
+         
             const task = new taskModel({
                 taskName,
                 dueDate :format,
@@ -115,6 +94,21 @@ exports.createTaskFromExcel = async(req, res) => {
                 remark,
                 assingBy: assingBy
             });
+            const transporter = nodemailer.createTransport({
+                host:'smtp.gmail.com',
+                port:587,
+                auth:{
+                    user:'uttamftspl@gmail.com',
+                    pass:'wlxj plim jsij fvzv'
+                }
+            })
+    
+            const MailInfo = await transporter.sendMail({
+                from:'uttamftspl@gmail.com',
+                to:assignTo,
+                subject:`Task ${taskName}`,
+                text:remark
+            })
             
             await task.save();
             

@@ -35,10 +35,10 @@ const UploadExcel = () => {
   };
 
   return (
-    <div>
-      <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
-      <button onClick={()=>navigate('/tasks')}> All tasks     </button>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', width: '300px', margin: '0 auto', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+      <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }} />
+      <button onClick={handleUpload} style={{ padding: '10px 20px', borderRadius: '4px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer' }}>Upload</button>
+      <button onClick={()=>navigate('/tasks')} style={{ padding: '10px 20px', borderRadius: '4px', border: 'none', backgroundColor: '#28a745', color: '#fff', cursor: 'pointer' }}>All tasks</button>
     </div>
   );
 };
