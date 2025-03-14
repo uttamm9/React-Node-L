@@ -5,14 +5,14 @@ const nodemailer = require('nodemailer');
 const {excelFileRead} = require('../Utility/ExcelFileUpload')
 const { json } = require('express');
 const moment = require('moment')
-const {SendMail} = require('../Utility/Nodemailer')
+const {SendMail} = require('C:/Users/uttam/OneDrive/Desktop/ENV/Nodemailer');
 
 exports.createTask = async (req, res) => {
     try {
         const color = req.user.color;
         console.log("color",color);
         const { taskName, dueDate, assignTo, remark } = req.body;
-        console.log("<><>>>>>>>>>>req.body",req.body);
+        // console.log("<><>>>>>>>>>>req.body",req.body);
 
         if(!(taskName && dueDate && assignTo && remark)) {
             return res.status(400).json({
@@ -37,7 +37,7 @@ exports.createTask = async (req, res) => {
         if (tasksAssignedToday >= 5) {
             return res.status(400).json({message: 'User already has 5 tasks assigned for today'});
         }
-        console.log("count>>>",tasksAssignedToday)
+        // console.log("count>>>",tasksAssignedToday)
         
         const assingBy = req.user._id;
         const task = new taskModel({
@@ -94,21 +94,7 @@ exports.createTaskFromExcel = async(req, res) => {
                 remark,
                 assingBy: assingBy
             });
-            const transporter = nodemailer.createTransport({
-                host:'smtp.gmail.com',
-                port:587,
-                auth:{
-                    user:'uttamftspl@gmail.com',
-                    pass:'wlxj plim jsij fvzv'
-                }
-            })
-    
-            const MailInfo = await transporter.sendMail({
-                from:'uttamftspl@gmail.com',
-                to:assignTo,
-                subject:`Task ${taskName}`,
-                text:remark
-            })
+            const MailInfo = await SendMail(assignTo, `Task ${taskName}`, remark);
             
             await task.save();
             

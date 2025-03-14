@@ -1,8 +1,7 @@
 const nodemailer = require('nodemailer');
 const path = require('path')
 const envPath = path.resolve('C:/Users/uttam/OneDrive/Desktop/ENV/.env');
-console.log('Resolved Path:', envPath);
-return;
+
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
