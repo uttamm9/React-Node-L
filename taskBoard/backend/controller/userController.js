@@ -5,6 +5,7 @@ const secret_key = '55354trw4fvrg65grtv56'
 const nodemailer = require('nodemailer');
 const moment = require('moment');
 const {FileUpload} = require('../Utility/ClodinaryService')
+const {SendMail} = require('C:/Users/uttam/OneDrive/Desktop/ENV/Nodemailer');
 
 exports.signup = async (req, res) => {
     try {
@@ -33,22 +34,8 @@ exports.signup = async (req, res) => {
             file:fileupload[0].url
         }); 
         await newUser.save();
-        const transporter = nodemailer.createTransport({
-            host:'smtp.gmail.com',
-            port:587,
-            auth:{
-                user:'uttamftspl@gmail.com',
-                pass:'wlxj plim jsij fvzv'
-            }
-        });
-        
-        const MailInfo = await transporter.sendMail({
-            from:'uttamftspl@gmail.com',
-            to:email,
-            subject:'Account created',
-            text:'Account created successfully'
-        });
-        console.log('MailInfo',MailInfo);
+        const MailInfo = await SendMail(email,`Account created`,`Account created successfully`)
+    
         let verify = '';
         if(MailInfo.messageId){
             verify = 'Email sent successfully';
