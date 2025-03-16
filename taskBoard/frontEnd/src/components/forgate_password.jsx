@@ -38,42 +38,47 @@ const getOTP = async()=>{
 }
 
   return (
-    <div>
-      <h2>Reset Password</h2>
+    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
+      <h2 style={{ textAlign: 'center' }}>Reset Password</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div style={{ marginBottom: '10px' }}>
           <label>Email:</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
           />
         </div>
-        <div>
+        <div style={{ marginBottom: '10px' }}>
           <label>New Password:</label>
           <input
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
           />
         </div>
-        <div>
+        <div style={{ marginBottom: '10px' }}>
           <label>Confirm Password:</label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
           />
         </div>
-        <div>
-          <input type="text" 
+        <div style={{ marginBottom: '10px' }}>
+          <input
+            type="text"
             placeholder="Enter OTP"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
+            style={{ width: 'calc(70% - 10px)', padding: '8px', boxSizing: 'border-box', marginRight: '10px' }}
           />
-          <button onClick={getOTP}>Get OTP</button>
+          <button type="button" onClick={getOTP} style={{ width: '30%', padding: '8px', boxSizing: 'border-box' }}>Get OTP</button>
         </div>
-        <button type="submit">Reset Password</button>
+        <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#007BFF', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Reset Password</button>
       </form>
     </div>
   );

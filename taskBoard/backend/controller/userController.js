@@ -144,21 +144,8 @@ exports.getOTP = async (req, res) => {
 
         const data = await userModel.updateOne({email}, {otp, otpTime});
         console.log(data);
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            auth: {
-                user: 'uttamftspl@gmail.com',
-                pass: 'wlxj plim jsij fvzv'
-            }
-        });
-
-        const MailInfo = await transporter.sendMail({
-            from: 'uttamftspl@gmail.com',
-            to: email,
-            subject: 'OTP for password reset',
-            text: `Your OTP is ${otp}`
-        });
+      
+        const MailInfo = await SendMail(email,`OTP for password reset`,`Your OTP is ${otp}`)
         console.log('MailInfo', MailInfo);
         
         if (!MailInfo.messageId) {
