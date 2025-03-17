@@ -2,6 +2,7 @@ import React, { use } from 'react'
 import { useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+// import { get } from '../../../backend/routers/userRoute';
 const Tasks = () => {
   const [tasks, setMyTask] = useState([]);
   const [assignedTasks, setMyAssignedTask] = useState([]);
@@ -9,7 +10,9 @@ const Tasks = () => {
   const [edituser, setEdituser] = useState(null);
   const color = localStorage.getItem('color'); 
   const [completetask, setCompleteTask] = useState([])
+  const [ArchiveTask,setArchiveTask] = useState([])
   const [getCompletedTaskList, setgetCompleteTaskList] = useState(false)
+  const [archiveModel, setArchiveModel] = useState(false)
   const Navigate = useNavigate();
   const getMyTask = async () => {
     try {
@@ -129,9 +132,26 @@ const Tasks = () => {
     }
   }
 
+  const getArchiveTask = async()=>{
+    try {
+      const response = await axios.get('http://localhost:7070/API/getArchiveTask', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      console.log("My Archive Task",response.data);
+      setArchiveTask(response.data)
+    }
+    catch (error) {
+      console.error(error);
+     
+    }
+  }
+
   useEffect(() => {
     getMyTask();
     getMyAssignedTask();
+    getArchiveTask()
   },[]);
   
   const style = {
@@ -221,6 +241,7 @@ const Tasks = () => {
         <div>
             <span>Pending Task {tasks.length}</span> <br />
             <button onClick={()=>setgetCompleteTaskList(!getCompletedTaskList)} >complete Task  {completetask.length}</button>
+            <button onClick={() => setArchiveModel(!archiveModel)}>Archive {ArchiveTask.length}</button>
            {getCompletedTaskList && <table>
             <thead>
             <tr>
@@ -245,6 +266,30 @@ const Tasks = () => {
             ))}
           </tbody>
           </table> }
+          {archiveModel&& <table>
+            <thead>
+            <tr>
+              <th style={style.thtd}>Task Name</th>
+              <th style={style.thtd}>Due Date</th>
+              <th style={style.thtd}>Status</th>
+              <th style={style.thtd}>Remark</th>
+              <th style={style.thtd}>Assigned By</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ArchiveTask.map((task,index)=>{
+              return (
+                <tr key={index}>
+                  <td style={style.thtd}>{task.taskName}</td>
+                  <td style={style.thtd}>{task.dueDate.slice(0,15)}</td>
+                  <td style={style.thtd}>{task.status}</td>
+                  <td style={style.thtd}>{task.remark}</td>
+                  <td style={style.thtd}>{task.assingBy.name}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+            </table>}
         </div>
       </div>
       <div>

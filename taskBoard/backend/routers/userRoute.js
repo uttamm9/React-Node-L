@@ -34,4 +34,6 @@ router.post('/completetask',auth,taskController.completeTask)
 
 router.post('/getOTP',userController.getOTP);
 
+router.get('/getArchiveTask',auth,taskController.getArchiveTask)
+
 module.exports = router;

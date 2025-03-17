@@ -1,11 +1,10 @@
 const taskModel = require('../model/taskModel');
 const userModel = require('../model/userModel');
 const trashModel = require('../model/trashModel');
-const nodemailer = require('nodemailer');
 const {excelFileRead} = require('../Utility/ExcelFileUpload')
-const { json } = require('express');
 const moment = require('moment')
 const {SendMail} = require('C:/Users/uttam/OneDrive/Desktop/ENV/Nodemailer');
+const {readCSVFile} = require('../Utility/CSVfileRead')
 
 exports.createTask = async (req, res) => {
     try {
@@ -247,4 +246,14 @@ exports.getCompletedTask = async(req,res)=>{
     const _id = req.user._id;
     const completeTask = await trashModel.find({assignTo:_id}).populate('assingBy')
     res.status(200).json(completeTask)
+}
+
+exports.getArchiveTask = async(req,res)=>{
+    try {
+        const archivedTasks = await trashModel.find({assignTo: req.user._id}).populate('assingBy');
+        console.log(">>my Archive Task >>",archivedTasks)
+        res.status(200).json(archivedTasks);
+    } catch (err) {
+        res.status(500).json({message: 'Internal server error'});
+    }
 }
