@@ -68,6 +68,7 @@ const Signup = () => {
           <input type="text" name="phone" placeholder='Phone' value={formData.phone} onChange={handleChange} required style={style.input} />
         </div>
         <div style={{ marginBottom: '10px' }}>
+         <label htmlFor="file" style={{color:'black',fontFamily:'initial'}}>Profile photo</label>
           <input type="file" name='file' onChange={(e) => setFile({file: e.target.files[0] })} style={style.input}/>
         </div>
         <div style={{ marginBottom: '10px' }}>
@@ -89,7 +90,7 @@ const Signup = () => {
         </div>
         <button type="submit" style={{ padding: '10px', backgroundColor: '#007BFF', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Sign Up</button>
         <div style={{ marginTop: '10px' }}>
-          <button type="button" onClick={() => navigate('/login')} style={{ padding: '10px', backgroundColor: '#6c757d', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Already have an account?</button>
+          <button type="button" onClick={() => navigate('/login')} style={{ padding: '10px', backgroundColor: '#6c757d', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer',width:'100%' }}>Already have an account?</button>
         </div>
       </form>
     </div>

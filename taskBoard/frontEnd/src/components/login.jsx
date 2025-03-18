@@ -13,10 +13,11 @@ const Login = () => {
     console.log('Password:', password);
     axios.post('http://localhost:7070/API/login', { email, password })
       .then((res) => { 
-        console.log('>>>>result>>>',res.data.color);
+        console.log('>>>>result>>>',res.data);
         localStorage.setItem('color', res.data.color);
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('name',res.data.name)
+        localStorage.setItem('profilephoto',res.data.profilephoto)
         axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
         alert(res.data.message);
         navigate('/createTask');

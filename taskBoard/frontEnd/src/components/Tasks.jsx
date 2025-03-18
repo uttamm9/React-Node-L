@@ -9,6 +9,7 @@ const Tasks = () => {
   const [module, setModule] = useState(false);
   const [edituser, setEdituser] = useState(null);
   const color = localStorage.getItem('color'); 
+  const profile = localStorage.getItem('profilephoto')
   const [completetask, setCompleteTask] = useState([])
   const [ArchiveTask,setArchiveTask] = useState([])
   const [getCompletedTaskList, setgetCompleteTaskList] = useState(false)
@@ -155,7 +156,7 @@ const Tasks = () => {
   },[]);
   
   const style = {
-    container :{ padding: '20px', fontFamily: 'Arial, sans-serif', color: '#555', backgroundColor: color, width: '1210px' },
+    container :{ padding: '20px', fontFamily: 'Arial, sans-serif', color: '#555', backgroundColor: color, width: '1210px' ,height:'100vh'},
     logout:{ padding: '10px 20px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' },
     createTask:{ padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' },
     thtd:{ border: '1px solid #ddd', padding: '8px' },
@@ -186,9 +187,16 @@ const Tasks = () => {
     <div style={style.container}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
   {/* First div aligned to the right */}
-  <div style={{ padding: '10px', color:'whitesmoke' }}>
-    <h2 >Hi {localStorage.getItem('name')}</h2>
+  <div style={{margin: '10px', display: 'flex', alignItems: 'center', gap: '10px', 
+ padding: '5px'}}> 
+  <div>
+    <h2 style={{ margin: 0 }}>Hi {localStorage.getItem('name')}</h2>
   </div>
+  <div style={{ border: '1px solid black', height: '30px', width: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+    borderRadius: '50%'  }}>
+    <img style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={profile} alt="Profile" />
+  </div>
+</div>
 
   {/* Second div aligned to the left */}
   <div style={{ display: 'flex', gap: '10px' }}>

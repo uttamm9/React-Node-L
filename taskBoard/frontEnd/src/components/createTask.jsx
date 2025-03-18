@@ -10,6 +10,8 @@ import axios from 'axios';
       remark: ''
     });
     const color = localStorage.getItem('color');
+    const profile = localStorage.getItem('profilephoto')
+    console.log("profile",profile)
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
     const [minDate, setMinDate] = useState('');
@@ -79,9 +81,21 @@ import axios from 'axios';
   }}
 >
   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-    <div style={{margin:'10px'}}> 
-      <h2> hii {localStorage.getItem('name')}</h2>
-      </div>
+  <div style={{margin: '10px', display: 'flex', alignItems: 'center', gap: '10px', 
+ padding: '5px'}}> 
+  <div>
+    <h2 style={{ margin: 0 }}>Hi {localStorage.getItem('name')}</h2>
+  </div>
+
+  <div style={{ height: '30px', width: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+    borderRadius: '50%'  }}>
+    
+         <img style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={profile} alt="Profile" />
+  
+  
+  </div>
+</div>
+
     <div style={{margin:'15px'}}>
       <button onClick={()=>navigate('/uploadExcel')}>upload from excel</button>
     </div>
