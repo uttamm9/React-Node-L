@@ -249,7 +249,7 @@ const Tasks = () => {
         <div>
             <span>Pending Task {tasks.length}</span> <br />
             <button onClick={()=>setgetCompleteTaskList(!getCompletedTaskList)} >complete Task  {completetask.length}</button>
-            <button onClick={() => setArchiveModel(!archiveModel)}>Archive {ArchiveTask.length}</button>
+            <button style={{margin:'3px',backgroundColor:'orangered'}} onClick={() => setArchiveModel(!archiveModel)}>Archive {ArchiveTask.length} </button>
            {getCompletedTaskList && <table>
             <thead>
             <tr>
